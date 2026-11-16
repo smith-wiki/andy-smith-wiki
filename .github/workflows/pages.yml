@@ -1,0 +1,63 @@
+name: Pages
+
+# Until the site build lands in sm-th/sw: publish static/ as is and turn every
+# line of `redirects` ("<from path> <to URL>") into <from>/index.html.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        run: |
+          set -euo pipefail
+          mkdir _site
+          cp -R static/. _site/
+          declare -A seen
+          while read -r from to rest; do
+            [[ -z "$from" || "$from" == \#* ]] && continue
+            [[ "$from" =~ ^/([a-z0-9._-]+/)*$ && "$to" =~ ^https:// && -z "$rest" ]] || { echo "bad redirect: $from $to $rest"; exit 1; }
+            [[ -z "${seen[$from]:-}" ]] || { echo "duplicate redirect: $from"; exit 1; }
+            seen[$from]=1
+            mkdir -p "_site$from"
+            cat > "_site${from}index.html" <<EOF
+          <!doctype html>
+          <html lang="en">
+          <head>
+          <meta charset="utf-8">
+          <title>Moved to $to</title>
+          <link rel="canonical" href="$to">
+          <meta http-equiv="refresh" content="0; url=$to">
+          <script>location.replace("$to" + location.search + location.hash);</script>
+          </head>
+          <body><p>Moved to <a href="$to">$to</a>.</p></body>
+          </html>
+          EOF
+          done < redirects
+          echo "${#seen[@]} redirects"
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Not found · Smith Wiki</title>
+<style>
+@font-face { font-family: "Inter"; font-weight: 100 900; src: url(https://old.smith.wiki/assets/fonts/InterVariable.woff2) format("woff2"); }
+@font-face { font-family: "Commit Mono"; font-weight: 400; src: url(https://old.smith.wiki/assets/fonts/CommitMono-400-Regular.otf) format("opentype"); }
+:root { --font-text: "Inter", system-ui, sans-serif; --font-mono: "Commit Mono", ui-monospace, monospace; --klein: #002fa7; --bg: #fff; --fg: #121212; --grey: #636363; --blue: #002fa7; }
+@media (prefers-color-scheme: dark) { :root { --bg: #0e0e0e; --fg: #e8e8e8; --grey: #868686; --blue: #598df9; --klein: #598df9; } }
+* { box-sizing: border-box; }
+html { background: var(--bg); color: var(--fg); }
+body { margin: 0; font: 400 18px/1.6 var(--font-text); -webkit-text-size-adjust: 100%; }
+.wrap { max-width: 64rem; margin: 0 auto; padding: 32px 24px 96px; }
+a { color: var(--blue); text-underline-offset: .18em; text-decoration-thickness: .06em; }
+.mast { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; font: 800 17px/1 var(--font-mono); padding-bottom: 13px; border-bottom: 2px solid var(--fg); }
+.mast a { color: var(--fg); text-decoration: none; }
+.mast nav { display: flex; gap: 20px; font-weight: 400; font-size: 13px; }
+.mast nav a { color: var(--grey); }
+.stamp { display: flex; gap: 6px 17px; margin-top: 48px; font: 400 13px/1.3 var(--font-mono); color: var(--grey); }
+.stamp > :first-child { color: var(--blue); }
+h1 { font-weight: 700; letter-spacing: -.025em; font-size: clamp(28px, 5.4vw, 40px); line-height: 1.1; margin: 12px 0 28px; }
+.k { display: inline-block; width: .5em; height: .8em; background: var(--klein); vertical-align: -.04em; margin-left: .08em; animation: blink 1.06s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .k { animation: none; } }
+.lead { color: var(--grey); margin: 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="mast"><a href="/">Smith Wiki</a><nav><a href="https://old.smith.wiki/">old wiki</a><a href="https://andysmith.ai/">andysmith.ai</a></nav></header>
+  <main>
+    <div class="stamp"><span>404</span><span>not found</span></div>
+    <h1>Nothing here<i class="k" aria-hidden="true"></i></h1>
+    <p class="lead">There is no page at this address. andy.smith.wiki is being rebuilt; the previous wiki lives on at <a href="https://old.smith.wiki/">old.smith.wiki</a>.</p>
+  </main>
+</div>
+</body>
+</html>
